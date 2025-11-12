@@ -1,0 +1,211 @@
+/* reservation.css */
+
+/* Hero Section for Reservation Page */
+.reservation-hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 94px; /* Adjust for fixed header height */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.reservation-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.65; /* Slightly less opaque to make forms more readable */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Behind the overlay */
+}
+
+.reservation-overlay {
+    position: relative;
+    z-index: 1; /* Above the background image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 25px; /* Padding for small screens */
+    box-sizing: border-box;
+}
+
+.reservation-container {
+    display: flex;
+    gap: 40px; /* Space between the reservation form and hours card */
+    align-items: flex-start; /* Align items to the top */
+    max-width: 900px; /* Max width for the content cards */
+    width: 100%;
+    position: relative; /* For z-index to work */
+    z-index: 2; /* Ensure content is above overlay */
+}
+
+/* Reservation Form Card */
+.reservation-form-card {
+    background-color: #fefefe;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 450px; /* Specific width for the form card */
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.reservation-form-card h2 {
+    font-family: 'Mada', sans-serif;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center; /* Center the heading within the card */
+}
+
+.reservation-form .form-group {
+    margin-bottom: 18px;
+}
+
+.reservation-form .form-group label {
+    display: block;
+    font-family: 'Mada', sans-serif;
+    font-size: 0.9em;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.reservation-form .form-group input[type="date"],
+.reservation-form .form-group input[type="time"],
+.reservation-form .form-group input[type="number"],
+.reservation-form .form-group input[type="text"],
+.reservation-form .form-group input[type="tel"],
+.reservation-form .form-group input[type="email"],
+.reservation-form .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Mada', sans-serif;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.reservation-form .form-group-inline {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.reservation-form .form-group-inline .form-group {
+    flex: 1; /* Each group takes equal space */
+    margin-bottom: 0; /* Remove bottom margin here to avoid double margin */
+}
+
+.confirm-reservation-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    margin-top: 15px;
+}
+
+/* Hours of Operation Card */
+.hours-card {
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 350px; /* Specific width for the hours card */
+    flex-shrink: 0; /* Prevent it from shrinking */
+    text-align: center;
+}
+
+.hours-card h3 {
+    font-family: 'Mada', sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #FFD700; /* Gold color for the heading */
+}
+
+.hours-card p {
+    font-family: 'Mada', sans-serif;
+    font-size: 1.05em;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #eee;
+}
+
+.hours-card p strong {
+    color: #FFD700; /* Gold for days of the week */
+}
+
+.hours-card .call-message {
+    font-size: 0.95em;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFD700;
+    font-weight: 500;
+}
+
+
+/* Media Queries */
+@media (max-width: 900px) {
+    .reservation-container {
+        flex-direction: column;
+        align-items: center; /* Center items when stacked */
+        gap: 30px;
+    }
+
+    .reservation-form-card,
+    .hours-card {
+        max-width: 450px; /* Allow cards to take more width on smaller screens, up to their max */
+        width: 90%; /* Take up more of the available width */
+    }
+
+    .reservation-hero-section {
+        height: auto; /* Allow height to adjust based on content */
+        min-height: 100vh; /* Ensure it still takes full height if content is short */
+        padding-bottom: 50px; /* Add some padding at the bottom when stacked */
+    }
+}
+
+@media (max-width: 600px) {
+    .reservation-form-card,
+    .hours-card {
+        padding: 25px 20px;
+    }
+
+    .reservation-form-card h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .hours-card h3 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+
+    .reservation-form .form-group-inline {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    .reservation-form-card,
+    .hours-card {
+        width: 95%; /* Even wider on very small screens */
+    }
+}
+
+/* --- NEW MODAL STYLES --- */

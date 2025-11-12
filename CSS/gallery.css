@@ -1,0 +1,62 @@
+/* Gallery Section Styles */
+.image-grid {
+    display: grid;
+    /* Adjust grid-template-columns for responsiveness: */
+    /* On larger screens, 3 columns */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; /* Space between grid items */
+    padding: 20px; /* Padding around the grid */
+    justify-items: center; /* Center items horizontally within their grid areas */
+    align-items: center; /* Center items vertically within their grid areas */
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden; /* Ensures image corners are rounded with the border-radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    width: 100%; /* Ensure item takes full width of its grid column */
+    max-width: 400px; /* Optional: limit max width of individual gallery items */
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.gallery-item img {
+    width: 100%; /* Make image fill the container */
+    height: 250px; /* Fixed height for uniformity, adjust as needed */
+    object-fit: cover; /* Cover the area, cropping if necessary, maintaining aspect ratio */
+    display: block; /* Remove extra space below image */
+}
+
+/* Media Queries for Gallery Responsiveness */
+@media (max-width: 768px) {
+    .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 2 columns on tablets */
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .gallery-item img {
+        height: 200px; /* Adjust height for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .image-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .gallery-item {
+        max-width: 90%; /* Adjust max-width for better mobile viewing */
+        margin: 0 auto; /* Center items when in single column */
+    }
+
+    .gallery-item img {
+        height: 180px; /* Further adjust height for very small screens */
+    }
+}

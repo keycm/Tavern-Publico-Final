@@ -1,0 +1,317 @@
+/*=================================================================*/
+/*= Google Font Import for Section Headings                       =*/
+/*=================================================================*/
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&family=Mada:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap');
+
+
+/* General Resets and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Mada', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f8f8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-top: 94px; /* Default padding for fixed header */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+/*=================================================================*/
+/*= FINAL & CORRECTED SECTION HEADING STYLES                      =*/
+/*=================================================================*/
+
+.section-heading-v2 { text-align: center; margin-bottom: 60px; overflow: hidden; }
+.section-heading-v2 .sub-title { font-family: 'MonteCarlo', cursive; color: #333; margin-bottom: 2px; font-weight: 400; font-size: clamp(1.5rem, 4vw + 0.5rem, 2.2rem); }
+.section-heading-v2 .title-with-lines { display: flex; align-items: center; justify-content: center; }
+.section-heading-v2 .main-title { font-family: 'Mada', sans-serif; color: #222; font-weight: 700; padding: 0 1rem; font-size: clamp(1.8rem, 5vw + 1rem, 2.8rem); white-space: nowrap; }
+.section-heading-v2 .line { width: 100%; height: 1px; background-color: #ccc; }
+
+
+/* Reusable Components */
+.btn { padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; text-decoration: none; display: inline-block; font-size: 0.95em; font-family: 'Mada', sans-serif; }
+.btn-primary { background-color: #000; color: #fff; border: 1px solid #000; }
+.btn-primary:hover { background-color: #333; border-color: #333; }
+.btn-secondary { background-color: #000000; color: #ffffff; border: 1px solid #ddd; margin-top: 40px; }
+.btn-secondary:hover { background-color: #ffffff; color: #0a0a0a; border-color: #1c1b1b; }
+.btn-outline-dark { background-color: transparent; color: #000; border: 1px solid #000; padding: 12px 25px; margin-top: 25px; }
+.btn-outline-dark:hover { background-color: #eee; }
+.btn-outline-white { background-color: transparent; color: #fff; border: 1px solid #fff; }
+.btn-outline-white:hover { background-color: rgba(255, 255, 255, 0.15); }
+.common-padding { padding: 40px 0; }
+h2 { font-family: 'Mada', sans-serif; text-align: center; margin-bottom: 60px; color: #222; font-weight: 700; line-height: 1.2; font-size: clamp(2rem, 5vw + 1rem, 2.8rem); }
+
+/* =====================================
+===   THIS IS THE SECTION TO FIX  ===
+=====================================
+*/
+.main-header {
+    background-color: #fff;
+    color: #000;
+    width: 100%; /* FIX: Was '100%' but had max-width */
+    /* max-width: 1530px; */ /* FIX: REMOVED this line */
+    height: 90px;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0; /* FIX: Changed from '50%' */
+    /* transform: translateX(-50%); */ /* FIX: REMOVED this line */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* This centers the .header-content */
+}
+/*
+=====================================
+=== END OF FIX                    ===
+=====================================
+*/
+
+.header-content { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; padding: 0 25px; box-sizing: border-box; gap: 10px; }
+.logo { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+.logo-main-line { display: flex; align-items: center; }
+.logo-main-line span { font-family: 'Madimi One', sans-serif; font-size: 32px; letter-spacing: 0.5px; line-height: 1; color: #000; }
+.est-year { font-family: 'Mada', sans-serif; font-size: 0.7em; opacity: 1; font-weight: 400; color: #333; margin-top: 2px; }
+
+/* Navigation Links */
+.main-nav { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; margin-left: auto; /* Push nav/buttons to the right */ }
+.main-nav ul { list-style: none; display: flex; gap: 35px; margin: 0; padding: 0; justify-content: center; flex-grow: 1; }
+.main-nav a { font-family: 'Mada', sans-serif; font-size: 23px; color: #000; text-decoration: none; font-weight: 500; transition: color 0.3s ease; position: relative; }
+.main-nav ul li a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background-color: #000; transform: scaleX(0); transform-origin: bottom right; transition: transform 0.3s ease-in-out; }
+.main-nav ul li a.active-nav-link::after,
+.main-nav ul li a:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+/* Header Right section (contains buttons or user menu) */
+.header-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Ensure it stays pushed right */
+}
+
+/* Header Button */
+.header-button { background-color: #000; color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600; font-family: 'Mada', sans-serif; font-size: 0.95em; transition: background-color 0.3s ease; }
+.header-button:hover { background-color: #333; }
+.header-button .mobile-icon { display: none !important; }
+
+/* Hero Section */
+.hero-section { position: relative; width: 100%; height: 90vh; overflow: hidden; background-color: #000; display: flex; align-items: center; justify-content: center; }
+.slideshow-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.mySlides { display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+.hero-bg-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.65; position: absolute; top: 0; left: 0; }
+.hero-overlay { position: relative; z-index: 1; display: flex; justify-content: flex-start; align-items: center; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); padding-inline: clamp(1.5rem, 10vw, 8rem); box-sizing: border-box;}
+.hero-text-container { text-align: left; max-width: 650px; }
+.hero-text-container h1 { font-family: 'Madimi One', sans-serif; margin-bottom: 15px; color: #FFD700; line-height: 1.2; font-weight: 700; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); font-size: clamp(2.2rem, 7vw + 1rem, 4.5rem); word-wrap: break-word; hyphens: auto; }
+.hero-text-container p { margin-bottom: 25px; max-width: 500px; color: #FFFFFF; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); font-size: clamp(0.9rem, 2vw + 0.5rem, 1.2rem); }
+.hero-buttons { display: flex; gap: 15px; }
+.hero-buttons .btn { border-radius: 8px; font-weight: bold; padding: 14px 20px; font-size: 1em; text-transform: none; transition: all 0.3s ease; width: 180px; display: inline-flex; justify-content: center; align-items: center; margin-top: 0; text-decoration: none; }
+.hero-buttons .btn.btn-outline-white { background-color: transparent; color: #fff; border: 1px solid #fff; }
+.hero-buttons .btn.btn-secondary { background-color: #2a2a2a; color: #ffffff; border: 1px solid #b0b0b0; }
+.hero-buttons .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+.hero-buttons .btn.btn-outline-white:hover { background-color: rgba(255, 255, 255, 0.15); border-color: #fff; }
+.hero-buttons .btn.btn-secondary:hover { background-color: #404040; border-color: #ffffff; }
+.hero-bg-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); }
+.fade { animation-name: fade; animation-duration: 1.5s; }
+@keyframes fade { from {opacity: .4} to {opacity: 1} }
+.dot { cursor: pointer; height: 12px; width: 12px; margin: 0 2px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: background-color 0.6s ease; }
+.active, .dot:hover { background-color: #717171; }
+
+/* --- Slider Styles & Responsive Fixes --- */
+.slider-container { position: relative; }
+.slider-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 29px; }
+.slider-btn { display: none; }
+
+/* Sections (Specialty, Story, Events, Testimonials) */
+.specialties-section, .upcoming-events-section, .guest-testimonials-section { text-align: center; }
+.our-story-section { background-color: #f4f4f4; }
+.specialty-card, .event-card, .testimonial-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Use 100% to fill grid/flex row height */
+}
+.specialty-card:hover, .event-card:hover, .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
+.specialty-card {
+    padding-bottom: 25px;
+    /* Removed fixed height and justify-content */
+}
+.event-card { padding-bottom: 25px; }
+.testimonial-card { padding: 35px; }
+.specialty-card img, .event-card img { width: 100%; height: 210px; object-fit: cover; margin-bottom: 20px; }
+.specialty-card h3, .event-card h3 { font-size: 1.5em; margin: 0 25px 12px; font-weight: 600; }
+.specialty-card p, .event-card p {
+    font-size: 0.95em;
+    color: #555;
+    margin: 0 25px 20px;
+    flex-grow: 1; /* Allow paragraph to grow */
+    flex-shrink: 1; /* Allow paragraph to shrink */
+    overflow: hidden; /* Hide potential overflow */
+}
+.event-card .event-date { display: block; margin: 0 25px 15px; font-size: 0.9em; font-weight: 600; color: #666; }
+.price-arrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    margin-top: auto; /* Pushes price section to the bottom */
+}
+.price { font-size: 1.2em; font-weight: 700; }
+.story-content { display: flex; align-items: flex-start; gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+.story-image { flex: 1; max-width: 598px; }
+.story-image img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); }
+.story-text { flex: 1.5; min-width: 350px; text-align: left; }
+.story-text p { font-size: 21px; }
+.testimonial-card p { font-style: italic; }
+.guest-info { display: flex; align-items: center; gap: 15px; margin-top: auto; }
+.guest-info img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+.guest-name { font-weight: 700; font-size: 1.1em; }
+
+/* Call to Action & Footer */
+.call-to-action-section { background-color: #000; color: #fff; padding: 100px 0; text-align: center; }
+.cta-content h2 { color: #fff; }
+.cta-content p { max-width: 850px; margin: 0 auto 50px; }
+.cta-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+.main-footer { background-color: #1a1a1a; color: #bbb; padding: 60px 0; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; }
+.footer-about p:first-of-type { font-family: 'Madimi One', sans-serif; font-size: 32px; color: #fff; }
+.footer-links ul { list-style: none; padding: 0; }
+.footer-links a { color: #bbb; text-decoration: none; display: block; margin-bottom: 10px; }
+.footer-links a:hover { color: #fff; }
+.footer-contact h3, .footer-hours h3, .footer-links h3 { color: #fff; font-size: 1.2em; margin-bottom: 25px; }
+.footer-bottom { text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #333; font-size: 0.9em; color: #999; }
+
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
+.modal-content { background-color: #fefefe; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-width: 500px; width: 100%; position: relative; overflow: hidden; }
+.close-button { color: #aaa; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; }
+.modal-panel { display: none; padding: 35px 30px; background-color: #fefefe; box-sizing: border-box; text-align: center; }
+.modal-panel.active { display: block; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 0.9em; margin-bottom: 8px; font-weight: 500; }
+.form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; }
+.modal-btn { width: 100%; padding: 12px; font-size: 1.1em; margin-top: 15px; }
+
+/*=================================================================*/
+/*= Responsive Media Queries                                      =*/
+/*=================================================================*/
+
+@media (max-width: 1024px) {
+    .main-nav ul { gap: 25px; }
+    .main-nav a { font-size: 20px; }
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    .story-content { flex-direction: column; align-items: center; gap: 40px; padding: 0; }
+    .story-text { text-align: left; max-width: 650px; width: 100%; }
+    .story-text .btn-outline-dark { display: block; width: fit-content; margin-left: auto; margin-right: auto; }
+}
+
+@media (max-width: 992px) {
+    /* === ALL OLD MOBILE NAV STYLES REMOVED === */
+    /* The new styles are now in partials/header.php */
+
+    body { padding-top: 94px; }
+
+    /* Responsive Logo Adjustments (Smaller) */
+    .logo-main-line span {
+        font-size: 22px;
+        letter-spacing: 0px;
+    }
+    .est-year {
+        font-size: 0.6em;
+        margin-top: 1px;
+    }
+
+    .header-content .logo {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .header-right .user-profile-menu {
+        gap: 8px;
+    }
+    .header-content {
+        padding: 0 10px;
+    }
+    /* End Responsive Logo Adjustments */
+}
+
+@media (max-width: 768px) {
+    .hero-section { height: 80vh; }
+    .hero-overlay { justify-content: center; }
+    .hero-text-container { text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .hero-buttons { flex-direction: column; align-items: center; width: 80%; max-width: 300px; }
+    .hero-buttons .btn { width: 100%; text-align: center; }
+
+    .slider-container { overflow: hidden; }
+    .slider-wrapper { display: flex; grid-template-columns: none; transition: transform 0.4s ease-in-out; }
+    .slider-item { flex: 0 0 90%; }
+
+    .slider-btn { display: flex; position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.4); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; z-index: 10; justify-content: center; align-items: center; transition: background-color 0.3s ease; }
+    .slider-btn:hover { background-color: rgba(0, 0, 0, 0.7); }
+    .slider-btn:disabled { background-color: rgba(0, 0, 0, 0.2); cursor: default; }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+
+    .story-text p { font-size: 18px; }
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .modal-content { margin: 20px; }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 0 15px; }
+    .btn { padding: 10px 20px; font-size: 0.9em; }
+    .slider-item { flex: 0 0 100%; }
+    .slider-btn { width: 35px; height: 35px; font-size: 1rem; }
+    .cta-buttons { flex-direction: column; gap: 15px; }
+    .btn-outline-white { width: 80%; margin: 0 auto; }
+    .section-heading-v2 .line { display: none; }
+    .section-heading-v2 .main-title { padding: 0; white-space: normal; }
+
+    /* Responsive Logo Adjustments (Smallest) */
+    .logo-main-line span {
+        font-size: 18px;
+    }
+    .est-year {
+        font-size: 0.55em;
+    }
+    .header-content .logo {
+        margin-right: 5px;
+    }
+     .header-right .user-profile-menu {
+        gap: 5px;
+    }
+    .header-content { padding: 0 10px; }
+    /* End Responsive Logo Adjustments */
+}
+
+.no-scroll { overflow: hidden; }
+
+/* === ALL OLD MOBILE NAV STYLES REMOVED === */
+/* The new styles are now in partials/header.php */
+
+/* --- Mobile Header Controls should not interfere --- */
+.mobile-header-controls { /* Make sure this is part of your .header-right on mobile */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Keep gap consistent */
+    margin-left: auto;
+}

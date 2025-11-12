@@ -1,0 +1,696 @@
+/* admin.css */
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&family=Mada:wght@300;400;500;600;700&display=swap');
+
+/* --- 1. General Body and Layout --- */
+body {
+    font-family: 'Mada', sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.page-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* --- 2. Sidebar Styling (THEME REVISED) --- */
+.admin-sidebar {
+    width: 250px;
+    background-color: #1a1a1a;
+    color: #bbb;
+    font-family: 'Mada', sans-serif;
+    padding: 20px 0;
+    box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 900;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.sidebar-header .home-icon {
+    width: 70px;
+    height: 70px;
+    filter: invert(90%);
+    opacity: 0.8;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu .menu-item {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu .menu-item a {
+    display: flex;
+    align-items: center;
+    padding: 14px 25px;
+    color: #bbb;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-menu .menu-item a .material-icons {
+    margin-right: 15px;
+    font-size: 22px;
+    color: #bbb;
+    transition: color 0.3s ease;
+}
+
+.sidebar-menu .menu-item a:hover {
+    background-color: #2a2a2a;
+    color: #FFD700;
+}
+
+.sidebar-menu .menu-item a:hover .material-icons {
+    color: #FFD700;
+}
+
+.sidebar-menu .menu-item.active a {
+    background-color: #FFD700;
+    color: #1a1a1a;
+    border-left-color: transparent;
+    font-weight: 700;
+}
+
+.sidebar-menu .menu-item.active a .material-icons {
+    color: #1a1a1a;
+}
+
+.user-management-title {
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 20px 25px 10px;
+    margin-top: 20px;
+    border-top: 1px solid #333;
+}
+
+/* --- 3. Main Content Area --- */
+.admin-content-area {
+    flex-grow: 1;
+    margin-left: 250px;
+    padding: 0;
+    padding-top: 70px;
+}
+
+/* --- 4. Header Styling --- */
+.main-header {
+    background-color: #fff;
+    color: #333;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    width: calc(100% - 250px);
+    top: 0;
+    right: 0;
+    z-index: 950;
+    height: 70px;
+    box-sizing: border-box;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 25px;
+    gap: 15px;
+}
+
+.header-page-title {
+    font-family: 'Madimi One', sans-serif;
+    font-size: 26px;
+    color: #2c3e50;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+
+/* === NEW HEADER UI STYLES START HERE === */
+.admin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-profile-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.admin-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.admin-username {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+}
+
+.admin-role {
+    font-size: 12px;
+    color: #777;
+    text-transform: capitalize;
+}
+
+.header-separator {
+    height: 30px;
+    width: 1px;
+    background-color: #e0e0e0;
+}
+/* === NEW HEADER UI STYLES END HERE === */
+
+
+/* --- 5. Dashboard Main Content & Sections --- */
+.dashboard-main-content {
+    padding: 20px;
+}
+
+.dashboard-heading {
+    display: none;
+}
+
+.dashboard-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 5px solid transparent;
+}
+
+.summary-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.summary-box h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #777;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.summary-box p {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+.summary-box .box-icon {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 60px;
+    opacity: 0.15;
+    color: currentColor;
+}
+
+.summary-box.total { border-bottom-color: #007bff; color: #007bff; }
+.summary-box.pending { border-bottom-color: #ffc107; color: #ffc107; }
+.summary-box.confirmed { border-bottom-color: #28a745; color: #28a745; }
+.summary-box.cancelled { border-bottom-color: #dc3545; color: #dc3545; }
+
+.calendar-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 5px solid #6c757d;
+    color: #6c757d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calendar-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-box h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+#calendar {
+    min-height: auto;
+    border: none;
+    display: block;
+    padding: 10px;
+}
+
+/* --- 6. Recent Reservations & Universal Headers --- */
+.recent-reservations-section {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.recent-reservations-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reservation-page-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.search-input-top,
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-family: 'Mada', sans-serif;
+    font-size: 14px;
+    width: 250px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    padding-left: 40px;
+}
+
+/* --- 7. Table Styling --- */
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 0; }
+table th, table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+table thead th { background-color: #f8f8f8; color: #555; font-weight: 600; text-transform: uppercase; font-size: 13px; }
+table tbody tr:hover { background-color: #fcfcfc; }
+.customer-info { display: flex; align-items: center; gap: 10px; }
+.customer-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
+.status-badge { display: inline-block; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: 700; text-align: center; min-width: 80px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.status-badge.pending { background-color: #fff3cd; color: #856404; }
+.status-badge.confirmed { background-color: #d4edda; color: #155724; }
+.status-badge.cancelled, .status-badge.declined { background-color: #f8d7da; color: #721c24; }
+.actions { white-space: nowrap; }
+.btn { padding: 8px 16px; border-radius: 4px; font-size: 14px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; border: none; margin-right: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-family: 'Mada', sans-serif; font-weight: 600; }
+.btn:last-child { margin-right: 0; }
+.btn.btn-small { padding: 6px 12px; font-size: 13px; }
+.btn.view-btn, .btn.view-edit-btn { background-color: #007bff; color: white; }
+.btn.view-btn:hover, .btn.view-edit-btn:hover { background-color: #0069d9; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+button.delete-btn, .btn.delete-btn { background-color: #e74c3c !important; color: white !important; }
+button.delete-btn:hover, .btn.delete-btn:hover { background-color: #c0392b !important; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+.id-uploaded-icon { color: #28a745; font-size: 1.2em; vertical-align: middle; }
+.no-id-icon { color: #ccc; font-size: 1.2em; vertical-align: middle; }
+
+
+/* --- 8. Modal Styling (UPDATED FOR OVERFLOW) --- */
+.modal { 
+    display: none; position: fixed; z-index: 1000; left: 0; top: 0; 
+    width: 100%; height: 100%; overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    justify-content: center; align-items: center; 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 0; /* MODIFIED: Padding removed from parent */
+    border-radius: 12px;
+    width: 90%;
+    max-width: 950px; /* Default max-width for large modals */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    
+    /* --- THIS IS THE FIX --- */
+    max-height: 90vh; /* 1. Limit height */
+    display: flex; /* 2. Use flexbox */
+    flex-direction: column; /* 3. Stack children vertically */
+    overflow: hidden; /* 4. Hide overflow on the container */
+    /* --- END FIX --- */
+}
+
+/* ADDED: Helper class for small modals */
+.modal-content.modal-content-small {
+    max-width: 550px;
+}
+
+@keyframes animatetop { from {top: -300px; opacity: 0} to {top: 0; opacity: 1} }
+
+/* ADDED: New rule for modal header */
+.modal-header {
+    padding: 25px 30px;
+    padding-bottom: 0;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+.modal-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-family: 'Madimi One', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    margin-bottom: 15px; /* Replaces old padding-bottom */
+    border-bottom: none; /* Removed duplicate border */
+}
+
+/* ADDED: New rule for modal body */
+.modal-body {
+    padding: 20px 30px;
+    overflow-y: auto; /* This makes the body scroll! */
+    flex-grow: 1; /* This makes the body fill the space */
+}
+
+/* This handles modals WITHOUT a .modal-body, like "Edit Customer" */
+.modal-content > form {
+    padding: 20px 30px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+/* This handles simple content in confirm modals */
+.modal-content > p {
+     padding: 20px 30px;
+     margin: 0;
+}
+
+
+/* MODIFIED: .modal-content h2 rule is now part of .modal-header h2 */
+.modal-content h2 { 
+    margin-top: 0; color: #2c3e50; font-family: 'Madimi One', sans-serif; 
+    font-weight: 400; font-size: 26px; border-bottom: 1px solid #eee; 
+    padding-bottom: 15px; margin-bottom: 20px; 
+}
+
+/* --- MODIFIED: Reservation Details Modal Grid --- */
+#modalDetails { 
+    text-align: left; 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Two-column layout */
+    gap: 12px 20px; /* Row and column gap */
+}
+#modalDetails p { 
+    display: flex; 
+    flex-direction: column; /* Stack label and value */
+    padding: 0;
+    border: none;
+    margin-bottom: 0; 
+    background-color: transparent; 
+    border-radius: 0; 
+    font-size: 15px; 
+}
+#modalDetails p strong { 
+    font-weight: 600; 
+    color: #555; 
+    font-size: 13px; 
+    margin-bottom: 4px; 
+    text-transform: uppercase;
+}
+#modalDetails p span { 
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+/* --- END MODIFICATION --- */
+
+
+.close-button { 
+    color: #888; font-size: 32px; font-weight: bold; 
+    position: absolute; top: 15px; right: 25px; 
+    cursor: pointer; transition: color 0.3s ease; 
+    z-index: 10; /* Ensure it's on top */
+}
+.close-button:hover, .close-button:focus { color: #333; text-decoration: none; }
+
+/* MODIFIED: Modal actions are now a footer */
+.modal-actions { 
+    margin-top: 0; /* Was 30px */
+    text-align: right; 
+    border-top: 1px solid #eee; 
+    padding: 20px 30px; /* Was padding-top only */
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+.modal-actions .btn { margin-left: 10px; }
+
+
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; box-sizing: border-box; transition: border-color 0.3s ease, box-shadow 0.3s ease; font-family: 'Mada', sans-serif; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); outline: none; }
+
+#editReservationForm, #addReservationForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+}
+#addReservationForm .form-group:has(#addResName),
+#addReservationForm .form-group:has(#addResEmail) {
+    grid-column: 1 / -1;
+}
+#modalCreatedAt { background-color: #e9ecef; cursor: not-allowed; }
+
+/* --- 9. Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .admin-sidebar { width: 180px; }
+    .admin-content-area { margin-left: 180px; }
+    .main-header { width: calc(100% - 180px); }
+    .header-page-title { font-size: 20px; }
+    .search-input-top, .search-input { width: 180px; }
+    
+    #modalDetails {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Other specific styles from admin.css */
+.pagination-container { display: flex; justify-content: center; align-items: center; margin-top: 25px; padding: 10px 0; gap: 10px; }
+#pageNumbers { display: flex; gap: 5px; }
+.page-number { padding: 8px 14px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: background-color 0.2s, color 0.2s; background-color: #fff; color: #333; font-weight: 500; }
+.page-number:hover { background-color: #f0f0f0; }
+.page-number.active { background-color: #007bff; color: white; border-color: #007bff; font-weight: bold; }
+.pagination-container .btn:disabled { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; opacity: 0.7; }
+.btn-loading { position: relative; color: transparent !important; cursor: wait !important; pointer-events: none; }
+.btn-loading::after { content: ''; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin-left: -10px; margin-top: -10px; border: 3px solid rgba(255, 255, 255, 0.5); border-top-color: #ffffff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+.modal-decline-btn.btn-loading::after { border-top-color: #333; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- Admin Header Notifications --- */
+.admin-notification-area { display: flex; align-items: center; gap: 10px; }
+.admin-notification-item { position: relative; }
+.admin-notification-button { background-color: #f0f2f5; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color 0.3s ease; }
+.admin-notification-button:hover { background-color: #e4e6eb; }
+.admin-notification-button .material-icons { color: #333; font-size: 22px; }
+.admin-notification-badge { position: absolute; top: -2px; right: -2px; background-color: #e74c3c; color: white; font-size: 11px; border-radius: 50%; padding: 3px 6px; font-weight: bold; border: 2px solid #fff; }
+.admin-notification-dropdown { display: none; position: absolute; top: 120%; right: 0; width: 320px; background-color: #fff; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); border: 1px solid #ddd; overflow: hidden; z-index: 1000; }
+.admin-notification-dropdown.show { display: block; animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.admin-dropdown-header { padding: 12px 15px; font-weight: bold; font-size: 16px; border-bottom: 1px solid #eee; }
+.admin-dropdown-item { display: block; padding: 12px 15px; text-decoration: none; color: #333; border-bottom: 1px solid #f5f5f5; transition: background-color 0.2s ease; }
+.admin-dropdown-item:hover { background-color: #f8f9fa; }
+.admin-dropdown-item:last-of-type { border-bottom: none; }
+.admin-dropdown-item strong { font-size: 14px; }
+.admin-dropdown-item small { font-size: 12px; color: #777; }
+.admin-dropdown-empty { padding: 20px; text-align: center; color: #888; }
+.admin-dropdown-footer { display: block; text-align: center; padding: 10px; background-color: #f8f9fa; color: #007bff; text-decoration: none; font-weight: 600; font-size: 13px; border-top: 1px solid #eee; }
+.admin-dropdown-footer:hover { background-color: #e9ecef; }
+.admin-dropdown-item-wrapper { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f5f5f5; }
+.admin-dropdown-item-wrapper:last-of-type { border-bottom: none; }
+.admin-dropdown-item { flex-grow: 1; border-bottom: none; }
+.admin-notification-dismiss { background: transparent; border: none; color: #aaa; font-size: 24px; line-height: 1; padding: 0 15px; cursor: pointer; align-self: stretch; display: flex; align-items: center; transition: color 0.2s ease, background-color 0.2s ease; }
+.admin-notification-dismiss:hover { color: #e74c3c; background-color: #fdf2f2; }
+
+/* --- UPDATED: Image Viewer Modal Styles --- */
+#imageIdModal {
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2001;
+    padding: 40px;
+    box-sizing: border-box;
+}
+#imageIdModal .close-image-modal {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 2002;
+}
+#imageIdModal .close-image-modal:hover,
+#imageIdModal .close-image-modal:focus {
+    color: #bbb;
+    text-decoration: none;
+}
+.image-modal-content {
+    margin: auto;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 5px;
+    animation-name: zoom;
+    animation-duration: 0.5s;
+    object-fit: contain;
+}
+@keyframes zoom {
+    from {transform:scale(0.1)}
+    to {transform:scale(1)}
+}
+#validIdDisplayModal .view-id-btn {
+     background-color: #007bff;
+     color: white;
+     margin-top: 5px;
+ }
+#validIdDisplayModal .view-id-btn:hover {
+    background-color: #0056b3;
+}
+
+/* === NEW STYLES FOR ADMIN PROFILE DROPDOWN === */
+
+.admin-profile-dropdown {
+    position: relative;
+}
+
+.admin-profile-area {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    display: flex; /* Ensure icon is aligned */
+    align-items: center;
+}
+
+.admin-profile-area:hover {
+    background-color: #f0f2f5;
+}
+
+.admin-dropdown {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 120%; /* Position below the profile button */
+    right: 0;
+    width: 180px; /* Set a width */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.admin-dropdown.show {
+    display: block; /* Show the dropdown */
+    animation: fadeIn 0.3s ease-out;
+}
+
+.admin-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.admin-dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-dropdown-item i.material-icons {
+    color: #555;
+    font-size: 20px;
+}
+
+/* --- MODIFICATION: MODAL BUTTON COLORS --- */
+.modal-confirm-btn {
+    background-color: #28a745;
+    color: white;
+}
+.modal-confirm-btn:hover {
+    background-color: #218838;
+}
+
+.modal-decline-btn {
+    background-color: #ffc107;
+    color: #212529;
+}
+.modal-decline-btn:hover {
+    background-color: #e0a800;
+}
+
+.modal-delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+.modal-delete-btn:hover {
+    background-color: #c82333;
+}
+/* --- END MODIFICATION --- */
