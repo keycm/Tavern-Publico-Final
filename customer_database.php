@@ -2,8 +2,8 @@
 session_start();
 require_once 'db_connect.php';
 
-// Check if the user is logged in AND is an admin
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || !$_SESSION['is_admin']) {
+// MODIFICATION: Only the 'owner' can access this page
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || !isset($_SESSION['role']) || $_SESSION['role'] !== 'owner') {
     header('Location: login.php');
     exit;
 }
@@ -16,7 +16,7 @@ if (!mysqli_query($link, $cleanup_sql)) {
 
 // Fetch all non-admin users from the database, including their role
 $users = [];
-$sql = "SELECT user_id, username, email, created_at, is_verified, role FROM users WHERE is_admin = 0 AND deleted_at IS NULL ORDER BY created_at DESC";
+$sql = "SELECT user_id, username, email, created_at, is_verified, role, permissions FROM users WHERE is_admin = 0 AND deleted_at IS NULL ORDER BY created_at DESC";
 
 if ($result = mysqli_query($link, $sql)) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -38,6 +38,21 @@ mysqli_close($link);
     <link rel="stylesheet" href="CSS/admin.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        /* --- MODIFICATION: Added color and hover for save button --- */
+        .modal-save-btn {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        .modal-save-btn:hover {
+            background-color: #218838; /* Darker Green */
+        }
+        /* --- END MODIFICATION --- */
+        
+        /* Fix for edit/add modal width */
+        #userModal .modal-content {
+            max-width: 550px; 
+        }
+
         /* --- Styles for New Manager Permissions Modal --- */
         #managerPermissionsModal .modal-content {
             max-width: 600px;
@@ -228,7 +243,9 @@ mysqli_close($link);
                                     <?php foreach ($users as $user): ?>
                                         <tr data-user-id="<?= $user['user_id']; ?>"
                                             data-username="<?= htmlspecialchars($user['username'], ENT_QUOTES); ?>"
-                                            data-email="<?= htmlspecialchars($user['email'], ENT_QUOTES); ?>">
+                                            data-email="<?= htmlspecialchars($user['email'], ENT_QUOTES); ?>"
+                                            data-permissions='<?= htmlspecialchars($user['permissions'] ?? '[]', ENT_QUOTES); ?>'>
+                                            
                                             <td><?= sprintf('%04d', $user['user_id']); ?></td>
                                             <td><?= htmlspecialchars($user['username']); ?></td>
                                             <td><?= htmlspecialchars($user['email']); ?></td>
@@ -241,16 +258,22 @@ mysqli_close($link);
                                                 <?php endif; ?>
                                             </td>
                                             <td class="role-cell"><?= htmlspecialchars(ucfirst($user['role'])); ?></td>
+                                            
                                             <td class="actions">
                                                 <?php if (!$user['is_verified']): ?>
                                                     <button class="btn btn-small verify-btn" style="background-color: #17a2b8;">Verify</button>
                                                 <?php endif; ?>
                                                 <button class="btn btn-small view-edit-btn">Edit</button>
                                                 <button class="btn btn-small delete-btn">Delete</button>
-                                                <button class="btn btn-small toggle-role-btn" data-role="<?= htmlspecialchars($user['role']); ?>">
-                                                    <?= $user['role'] === 'manager' ? 'Make User' : 'Make Manager' ?>
-                                                </button>
+                                                
+                                                <?php if ($user['role'] === 'manager'): ?>
+                                                    <button class="btn btn-small edit-permissions-btn" style="background-color: #17a2b8;">Edit Perms</button>
+                                                    <button class="btn btn-small demote-user-btn" style="background-color: #6c757d;">Demote</button>
+                                                <?php else: ?>
+                                                    <button class="btn btn-small promote-user-btn" style="background-color: #28a745;">Make Manager</button>
+                                                <?php endif; ?>
                                             </td>
+
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -266,7 +289,6 @@ mysqli_close($link);
                         <h2 id="modalTitle">Add New Customer</h2>
                         <span class="close-button">&times;</span>
                     </div>
-                    
                     <div class="modal-body">
                         <form id="userForm"> 
                             <input type="hidden" id="userId" name="user_id">
@@ -289,12 +311,12 @@ mysqli_close($link);
                             </div>
                         </form>
                     </div>
-                    
                     <div class="modal-actions">
                         <button type="submit" class="btn modal-save-btn" form="userForm">Save Changes</button>
                     </div>
                 </div>
             </div>
+            
             <div id="managerPermissionsModal" class="modal">
                 <div class="modal-content" style="max-width: 600px;">
                     <div class="modal-header">
@@ -304,6 +326,8 @@ mysqli_close($link);
                     <div class="modal-body">
                         <form id="managerPermissionsForm">
                             <input type="hidden" id="managerUserId" name="user_id">
+                            <input type="hidden" id="permissionAction" name="action" value="promote">
+                            
                             <div class="permission-group">
                                 <div class="permission-item">
                                     <div class="permission-icon"><i class="material-icons">event_note</i></div>
@@ -314,6 +338,18 @@ mysqli_close($link);
                                     <div class="permission-toggle">
                                         <input type="checkbox" id="perm_manage_reservations" name="permissions[]" value="manage_reservations" class="toggle-switch">
                                         <label for="perm_manage_reservations"></label>
+                                    </div>
+                                </div>
+
+                                <div class="permission-item">
+                                    <div class="permission-icon"><i class="material-icons">file_upload</i></div>
+                                    <div class="permission-text">
+                                        <label for="perm_manage_uploads">Manage Uploads</label>
+                                        <p>Allow access to the Upload Management page to add/delete hero slides, events, gallery, etc.</p>
+                                    </div>
+                                    <div class="permission-toggle">
+                                        <input type="checkbox" id="perm_manage_uploads" name="permissions[]" value="manage_uploads" class="toggle-switch">
+                                        <label for="perm_manage_uploads"></label>
                                     </div>
                                 </div>
 
@@ -345,7 +381,7 @@ mysqli_close($link);
                     </div>
                     <div class="modal-actions">
                         <button type="button" class="btn" id="cancelPermissionsBtn" style="background-color: #6c757d; color: white;">Cancel</button>
-                        <button type="submit" class="btn modal-save-btn" form="managerPermissionsForm">Save & Promote</button>
+                        <button type="submit" class="btn modal-save-btn" id="permissionSubmitBtn" form="managerPermissionsForm">Save & Promote</button>
                     </div>
                 </div>
             </div>
@@ -364,7 +400,7 @@ mysqli_close($link);
                 <p id="alertModalMessage" style="margin-bottom: 0;"></p>
             </div>
             <div id="alertModalActions" class="modal-actions" style="justify-content: center; padding: 20px;">
-            </div>
+                </div>
         </div>
     </div>
 
@@ -391,7 +427,7 @@ mysqli_close($link);
             }
             
             // Re-style alertModal to look like the notification modal
-            modalHeaderIcon.innerHTML = (type === 'success' ? '<i class="material-icons" style="color: #28a745;">check_circle</i>' : '<i class="material-icons" style="color: #dc3545;">error</i>');
+            modalHeaderIcon.innerHTML = (type === 'success' ? '<i class="material-icons" style="color: #28a745; font-size: 3.5em;">check_circle</i>' : '<i class="material-icons" style="color: #dc3545; font-size: 3.5em;">error</i>');
             modalTitle.textContent = title;
             modalMessage.textContent = message;
             
