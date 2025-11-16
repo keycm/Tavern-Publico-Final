@@ -22,10 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const managerUserIdInput = document.getElementById('managerUserId');
     const managerPermissionsModalCloseButton = managerPermissionsModal.querySelector('.close-button');
     const cancelPermissionsBtn = document.getElementById('cancelPermissionsBtn');
+    const permissionActionInput = document.getElementById('permissionAction');
+    const permissionSubmitBtn = document.getElementById('permissionSubmitBtn');
 
 
     // --- Alert/Confirm Modal Elements ---
     const alertModal = document.getElementById('alertModal');
+    const modalHeaderIcon = document.getElementById('modalHeaderIcon');
     const alertModalTitle = document.getElementById('alertModalTitle');
     const alertModalMessage = document.getElementById('alertModalMessage');
     const alertModalActions = document.getElementById('alertModalActions');
@@ -34,6 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const showAlert = (title, message, callback = null) => {
         alertModalTitle.textContent = title;
         alertModalMessage.textContent = message;
+        
+        // Add icon
+        if (title.toLowerCase().includes('error') || title.toLowerCase().includes('failed')) {
+            modalHeaderIcon.innerHTML = '<i class="material-icons" style="color: #dc3545; font-size: 3.5em;">error</i>';
+        } else if (title.toLowerCase().includes('success')) {
+            modalHeaderIcon.innerHTML = '<i class="material-icons" style="color: #28a745; font-size: 3.5em;">check_circle</i>';
+        } else {
+             modalHeaderIcon.innerHTML = ''; // No icon
+        }
+        
         alertModalActions.innerHTML = '<button class="btn" id="alertOkBtn" style="background-color: #007bff; color: white;">OK</button>';
         alertModal.style.display = 'flex';
 
@@ -46,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showConfirm = (title, message, callback) => {
         alertModalTitle.textContent = title;
         alertModalMessage.textContent = message;
+        modalHeaderIcon.innerHTML = ''; // No icon for simple confirm
         alertModalActions.innerHTML = `
             <button class="btn" id="confirmCancelBtn" style="background-color: #6c757d; color: white;">Cancel</button>
             <button class="btn" id="confirmOkBtn" style="background-color: #dc3545; color: white;">Yes, Proceed</button>
@@ -119,21 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- CRUD and Verification Operations ---
+    // --- MODIFICATION: Rewritten Click Handler ---
     usersTableBody.addEventListener('click', (event) => {
         const target = event.target;
         const row = target.closest('tr');
-        if (!row) return;
+        if (!row || !row.dataset.userId) return;
 
         const userId = row.dataset.userId;
+        const username = row.dataset.username;
 
         if (target.classList.contains('view-edit-btn')) {
-            const userData = { id: userId, username: row.dataset.username, email: row.dataset.email };
+            const userData = { id: userId, username: username, email: row.dataset.email };
             openModalForEdit(userData);
         }
 
         if (target.classList.contains('delete-btn')) {
-            showConfirm('Confirm Deletion', `Are you sure you want to delete this user (${row.dataset.username})? This action cannot be undone.`, (confirmed) => {
+            showConfirm('Confirm Deletion', `Are you sure you want to delete this user (${username})? This action will move them to the archive.`, (confirmed) => {
                 if (confirmed) {
                     deleteUser(userId);
                 }
@@ -141,36 +156,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (target.classList.contains('verify-btn')) {
-            showConfirm('Confirm Verification', `Are you sure you want to manually verify this user (${row.dataset.username})?`, (confirmed) => {
+            showConfirm('Confirm Verification', `Are you sure you want to manually verify this user (${username})?`, (confirmed) => {
                 if (confirmed) {
                     verifyUser(userId, target);
                 }
             });
         }
 
-        if (target.classList.contains('toggle-role-btn')) {
-            const currentRole = target.dataset.role;
-            if (currentRole === 'user') {
-                const username = row.dataset.username;
-                managerPermissionsTitle.textContent = `Set Manager Permissions for ${username}`;
-                managerUserIdInput.value = userId;
-                managerPermissionsModal.style.display = 'flex';
-            } else {
-                showConfirm('Confirm Role Change', `Are you sure you want to demote this manager (${row.dataset.username}) to a user?`, (confirmed) => {
-                    if (confirmed) {
-                        toggleUserRole(userId, target);
-                    }
-                });
-            }
+        if (target.classList.contains('promote-user-btn')) {
+            managerPermissionsTitle.textContent = `Set Manager Permissions for ${username}`;
+            managerUserIdInput.value = userId;
+            managerPermissionsForm.reset(); // Clear old permissions
+            permissionActionInput.value = 'promote'; // Set action
+            permissionSubmitBtn.textContent = 'Save & Promote';
+            managerPermissionsModal.style.display = 'flex';
+        }
+
+        if (target.classList.contains('edit-permissions-btn')) {
+            const permissions = JSON.parse(row.dataset.permissions || '[]');
+            
+            managerPermissionsTitle.textContent = `Edit Manager Permissions for ${username}`;
+            managerUserIdInput.value = userId;
+            managerPermissionsForm.reset(); // Clear old checks first
+
+            // Pre-check the boxes
+            permissions.forEach(perm => {
+                const checkbox = document.getElementById(`perm_${perm}`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+            
+            permissionActionInput.value = 'edit_perms'; // Set action
+            permissionSubmitBtn.textContent = 'Save Changes';
+            managerPermissionsModal.style.display = 'flex';
+        }
+
+        if (target.classList.contains('demote-user-btn')) {
+            showConfirm('Confirm Demotion', `Are you sure you want to demote this manager (${username}) to a user?`, (confirmed) => {
+                if (confirmed) {
+                    demoteUser(userId); // Call the new demote function
+                }
+            });
         }
     });
+    // --- END MODIFICATION ---
 
     managerPermissionsForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        
+        const submitBtn = document.getElementById('permissionSubmitBtn');
+        submitBtn.classList.add('btn-loading'); // Add loading
+        
         const formData = new FormData(managerPermissionsForm);
-        const userId = managerUserIdInput.value;
-        const button = usersTableBody.querySelector(`tr[data-user-id="${userId}"] .toggle-role-btn`);
-
+        // The 'action' is now correctly set by the hidden input
+        
         try {
             const response = await fetch('manage_user_role.php', { method: 'POST', body: formData });
             const result = await response.json();
@@ -184,17 +224,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error submitting form:', error);
             showAlert('Error', 'An unexpected network error occurred.');
+        } finally {
+            submitBtn.classList.remove('btn-loading'); // Remove loading
         }
     });
 
 
     userForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        
+        // --- MODIFICATION START ---
+        const submitBtn = userModal.querySelector('button[form="userForm"]');
+        submitBtn.classList.add('btn-loading');
+        // --- MODIFICATION END ---
+            
         const password = passwordInput.value;
         const retypePassword = retypePasswordInput.value;
 
         if (password !== retypePassword) {
             showAlert('Error', 'The new passwords do not match.');
+            submitBtn.classList.remove('btn-loading'); // Remove loading on validation error
             return;
         }
 
@@ -214,6 +263,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error submitting form:', error);
             showAlert('Error', 'An unexpected network error occurred.');
+        } finally {
+             // --- MODIFICATION START ---
+            submitBtn.classList.remove('btn-loading');
+             // --- MODIFICATION END ---
         }
     });
 
@@ -257,9 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function toggleUserRole(id, buttonElement) {
+    // --- MODIFICATION: New function for demoting ---
+    async function demoteUser(id) {
         const formData = new FormData();
         formData.append('user_id', id);
+        formData.append('action', 'demote'); // Send the 'demote' action
 
         try {
             const response = await fetch('manage_user_role.php', { method: 'POST', body: formData });
@@ -267,18 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             showAlert(result.success ? 'Success!' : 'Error', result.message, () => {
                 if (result.success) {
-                    const roleCell = buttonElement.closest('tr').querySelector('.role-cell');
-                    roleCell.textContent = result.newRole.charAt(0).toUpperCase() + result.newRole.slice(1);
-                    
-                    buttonElement.dataset.role = result.newRole;
-                    buttonElement.textContent = result.newRole === 'manager' ? 'Make User' : 'Make Manager';
+                    location.reload();
                 }
             });
         } catch (error) {
-            console.error('Error toggling user role:', error);
+            console.error('Error demoting user:', error);
             showAlert('Error', 'An unexpected network error occurred.');
         }
     }
+    // --- END MODIFICATION ---
 
     // --- Search Functionality ---
     userSearchInput.addEventListener('keyup', () => {
